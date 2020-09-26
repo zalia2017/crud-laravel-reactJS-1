@@ -1,4 +1,5 @@
 Project CRUD menggunakan laravel dan reactJs, template awal dari https://ilmucoding.com/crud-laravel-react-js/
+
 Fitur : 
 1.Sweet Alert dari react-bootstrap-sweetalert
 2.Link dari react-router-dom
