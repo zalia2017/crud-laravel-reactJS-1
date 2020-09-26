@@ -1,3 +1,11 @@
+Project CRUD menggunakan laravel dan reactJs, template awal dari https://ilmucoding.com/crud-laravel-react-js/
+Fitur : 
+1.Sweet Alert dari react-bootstrap-sweetalert
+2.Link dari react-router-dom
+
+Penambahan :
+1.Pagination menggunakan https://www.npmjs.com/package/react-js-pagination
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
