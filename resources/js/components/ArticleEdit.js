@@ -100,7 +100,7 @@ export default class ArticleEdit extends Component {
     render() {
         const { article } = this.state
         return (
-            <div className='container py-4'>
+            <div className='container py-4 mt-5'>
                 <div className='row justify-content-center'>
                     <div className='col-md-6'>
                         <div className='card'>

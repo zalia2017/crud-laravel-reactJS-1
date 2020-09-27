@@ -6,6 +6,7 @@ import ArticleIndex from './ArticleIndex'
 import ArticleCreate from './ArticleCreate'
 import ArticleShow from './ArticleShow'
 import ArticleEdit from './ArticleEdit'
+import GalleryIndex from './GalleryIndex'
 
 class App extends Component {
     render() {
@@ -18,6 +19,7 @@ class App extends Component {
                         <Route exact path='/create' component={ArticleCreate} />
                         <Route path='/article/edit/:id' component={ArticleEdit} />
                         <Route path='/article/:id' component={ArticleShow} />
+                        <Route path='/Gallery/' component={GalleryIndex} />
                     </Switch>
                 </div>
             </BrowserRouter>

@@ -5,7 +5,7 @@ import SweetAlert from 'react-bootstrap-sweetalert'
 // import { Pagination } from 'react-laravel-paginex'
 import Pagination from 'react-js-pagination'
 
-export default class ArticleIndex extends Component {
+export default class GalleryIndex extends Component {
 
     constructor() {
         super()
@@ -166,7 +166,7 @@ export default class ArticleIndex extends Component {
                 <div className='row justify-content-center'>
                     <div className='col-md-8'>
                         <div className='card'>
-                            <div className='card-header'>All Article</div>
+                            <div className='card-header'>Gallery</div>
                             <div className='card-body'>
                                 <Link className='btn btn-primary btn-sm mb-3' to='/create'>
                                     Create new article
