@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import SweetAlert from 'react-bootstrap-sweetalert'
 import ContentHeader from './../components/ContentHeader'
 import Pagination from 'react-js-pagination'
+import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default class ArticleIndex extends Component {
 
@@ -163,7 +164,7 @@ export default class ArticleIndex extends Component {
         const { data } = this.state
         return (
             <div className='content-wrapper'>
-                <ContentHeader title="Articles" linkName="Articles"/>
+                <ContentHeader title="Articles" linkName="Articles" />
                 <div className='content'>
                     <div className='container-fluid'>
                         <div className='row'>
@@ -173,9 +174,16 @@ export default class ArticleIndex extends Component {
                                     <div className='card-body'>
                                         <Link className='btn btn-primary btn-sm mb-3' to='/create'>
                                             Create new article
-                                    </Link>
+                                        </Link>
+                                        <ReactHTMLTableToExcel
+                                            id="test-table-xls-button"
+                                            className="download-table-xls-button  ml-3 btn btn-info btn-sm mb-3"
+                                            table="table-to-xls"
+                                            filename="table_article"
+                                            sheet="table_article"
+                                            buttonText="Download as XLS" />
                                         <div className='table-responsive'>
-                                            <table className='table table-bordered table-hover'>
+                                            <table id="table-to-xls" className='table table-bordered table-hover'>
                                                 <thead>
                                                     <tr>
                                                         <th width="50" className="text-center">No</th>

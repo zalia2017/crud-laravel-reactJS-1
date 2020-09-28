@@ -66293,6 +66293,156 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react-html-table-to-excel/index.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/react-html-table-to-excel/index.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /* global window, document, Blob */
+
+
+var propTypes = {
+  table: _propTypes2.default.string.isRequired,
+  filename: _propTypes2.default.string.isRequired,
+  sheet: _propTypes2.default.string.isRequired,
+  id: _propTypes2.default.string,
+  className: _propTypes2.default.string,
+  buttonText: _propTypes2.default.string
+};
+
+var defaultProps = {
+  id: 'button-download-as-xls',
+  className: 'button-download',
+  buttonText: 'Download'
+};
+
+var ReactHTMLTableToExcel = function (_Component) {
+  _inherits(ReactHTMLTableToExcel, _Component);
+
+  function ReactHTMLTableToExcel(props) {
+    _classCallCheck(this, ReactHTMLTableToExcel);
+
+    var _this = _possibleConstructorReturn(this, (ReactHTMLTableToExcel.__proto__ || Object.getPrototypeOf(ReactHTMLTableToExcel)).call(this, props));
+
+    _this.handleDownload = _this.handleDownload.bind(_this);
+    return _this;
+  }
+
+  _createClass(ReactHTMLTableToExcel, [{
+    key: 'handleDownload',
+    value: function handleDownload() {
+      if (!document) {
+        if (true) {
+          console.error('Failed to access document object');
+        }
+
+        return null;
+      }
+
+      if (document.getElementById(this.props.table).nodeType !== 1 || document.getElementById(this.props.table).nodeName !== 'TABLE') {
+        if (true) {
+          console.error('Provided table property is not html table element');
+        }
+
+        return null;
+      }
+
+      var table = document.getElementById(this.props.table).outerHTML;
+      var sheet = String(this.props.sheet);
+      var filename = String(this.props.filename) + '.xls';
+
+      var uri = 'data:application/vnd.ms-excel;base64,';
+      var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-mic' + 'rosoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta cha' + 'rset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:Exce' + 'lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' + '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></' + 'xml><![endif]--></head><body>{table}</body></html>';
+
+      var context = {
+        worksheet: sheet || 'Worksheet',
+        table: table
+      };
+
+      // If IE11
+      if (window.navigator.msSaveOrOpenBlob) {
+        var fileData = ['' + ('<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-mic' + 'rosoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta cha' + 'rset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:Exce' + 'lWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>' + '</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></' + 'xml><![endif]--></head><body>') + table + '</body></html>'];
+        var blobObject = new Blob(fileData);
+        document.getElementById('react-html-table-to-excel').click()(function () {
+          window.navigator.msSaveOrOpenBlob(blobObject, filename);
+        });
+
+        return true;
+      }
+
+      var element = window.document.createElement('a');
+      element.href = uri + ReactHTMLTableToExcel.base64(ReactHTMLTableToExcel.format(template, context));
+      element.download = filename;
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+
+      return true;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'button',
+        {
+          id: this.props.id,
+          className: this.props.className,
+          type: 'button',
+          onClick: this.handleDownload
+        },
+        this.props.buttonText
+      );
+    }
+  }], [{
+    key: 'base64',
+    value: function base64(s) {
+      return window.btoa(unescape(encodeURIComponent(s)));
+    }
+  }, {
+    key: 'format',
+    value: function format(s, c) {
+      return s.replace(/{(\w+)}/g, function (m, p) {
+        return c[p];
+      });
+    }
+  }]);
+
+  return ReactHTMLTableToExcel;
+}(_react.Component);
+
+ReactHTMLTableToExcel.propTypes = propTypes;
+ReactHTMLTableToExcel.defaultProps = defaultProps;
+
+exports.default = ReactHTMLTableToExcel;
+
+
+/***/ }),
+
 /***/ "./node_modules/react-is/cjs/react-is.development.js":
 /*!***********************************************************!*\
   !*** ./node_modules/react-is/cjs/react-is.development.js ***!
@@ -73794,6 +73944,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_ContentHeader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../components/ContentHeader */ "./resources/js/components/ContentHeader.js");
 /* harmony import */ var react_js_pagination__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-js-pagination */ "./node_modules/react-js-pagination/dist/Pagination.js");
 /* harmony import */ var react_js_pagination__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_js_pagination__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_html_table_to_excel__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-html-table-to-excel */ "./node_modules/react-html-table-to-excel/index.js");
+/* harmony import */ var react_html_table_to_excel__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_html_table_to_excel__WEBPACK_IMPORTED_MODULE_7__);
 
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -73821,6 +73973,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -74102,9 +74255,17 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
         className: "btn btn-primary btn-sm mb-3",
         to: "/create"
-      }, "Create new article"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      }, "Create new article"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_html_table_to_excel__WEBPACK_IMPORTED_MODULE_7___default.a, {
+        id: "test-table-xls-button",
+        className: "download-table-xls-button  ml-3 btn btn-info btn-sm mb-3",
+        table: "table-to-xls",
+        filename: "table_article",
+        sheet: "table_article",
+        buttonText: "Download as XLS"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
         className: "table-responsive"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("table", {
+        id: "table-to-xls",
         className: "table table-bordered table-hover"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("th", {
         width: "50",

@@ -28,6 +28,7 @@
     },
     "dependencies": {
         "react-bootstrap-sweetalert": "^5.2.0",
+        "react-html-table-to-excel": "^2.0.0",
         "react-js-pagination": "^3.0.3",
         "react-laravel-paginex": "^2.0.8",
         "react-router-dom": "^5.2.0"
