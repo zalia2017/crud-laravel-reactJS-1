@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,5 @@ Route::get('/article/edit/{id}', [ArticleController::class, 'getArticle']);
 Route::get('/article/{id}', [ArticleController::class, 'getArticle']);
 Route::put('/article/{id}', [ArticleController::class, 'update']);
 Route::delete('/article/delete/{id}', [ArticleController::class, 'delete']);
+
+Route::post('/login', [LoginController::class, 'authenticate']);
