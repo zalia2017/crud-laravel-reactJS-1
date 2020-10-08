@@ -11,12 +11,14 @@ export default class Login extends Component {
             email: '',
             password: '',
             alert: null,
-            errors: []
+            errors: [], 
+            type: 'input'
         }
         this.handleFieldChange = this.handleFieldChange.bind(this)
         this.hasErrorFor = this.hasErrorFor.bind(this)
         this.renderErrorFor = this.renderErrorFor.bind(this)
         this.handleLogin = this.handleLogin.bind(this)
+        this.showHide = this.showHide.bind(this)
     }
     handleFieldChange(event) {
         this.setState({
@@ -102,6 +104,13 @@ export default class Login extends Component {
         })
 
     }
+    showHide(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.setState({
+            type: this.state.type === 'input' ? 'password': 'input'
+        })
+    }
     render() {
         return (
             <div className='container mt-5'>
@@ -124,6 +133,7 @@ export default class Login extends Component {
                                                 value={this.state.email}
                                                 onChange={this.handleFieldChange}
                                             />
+
                                             {this.renderErrorFor('email')}
                                         </div>
                                     </div>
@@ -132,12 +142,17 @@ export default class Login extends Component {
                                         <div className='col-md-6'>
                                             <input
                                                 id='password'
-                                                type='password'
+                                                type={this.state.type}
                                                 className={`form-control ${this.hasErrorFor('password') ? 'is-invalid' : ''}`}
                                                 name='password'
                                                 value={this.state.password}
                                                 onChange={this.handleFieldChange}
                                             />
+                                        </div>
+                                        <div className='col-md-1'>
+                                            <span onClick={this.showHide}>
+                                                {this.state.type === 'input' ? 'Hide' : 'Show'}
+                                            </span>
                                             {this.renderErrorFor('password')}
                                         </div>
                                     </div>

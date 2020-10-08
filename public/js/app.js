@@ -74702,12 +74702,14 @@ var Login = /*#__PURE__*/function (_Component) {
       email: '',
       password: '',
       alert: null,
-      errors: []
+      errors: [],
+      type: 'input'
     };
     _this.handleFieldChange = _this.handleFieldChange.bind(_assertThisInitialized(_this));
     _this.hasErrorFor = _this.hasErrorFor.bind(_assertThisInitialized(_this));
     _this.renderErrorFor = _this.renderErrorFor.bind(_assertThisInitialized(_this));
     _this.handleLogin = _this.handleLogin.bind(_assertThisInitialized(_this));
+    _this.showHide = _this.showHide.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -74816,6 +74818,15 @@ var Login = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "showHide",
+    value: function showHide(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.setState({
+        type: this.state.type === 'input' ? 'password' : 'input'
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -74855,12 +74866,16 @@ var Login = /*#__PURE__*/function (_Component) {
         className: "col-md-6"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         id: "password",
-        type: "password",
+        type: this.state.type,
         className: "form-control ".concat(this.hasErrorFor('password') ? 'is-invalid' : ''),
         name: "password",
         value: this.state.password,
         onChange: this.handleFieldChange
-      }), this.renderErrorFor('password'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        onClick: this.showHide
+      }, this.state.type === 'input' ? 'Hide' : 'Show'), this.renderErrorFor('password'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group row mb-0"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-8 offset-md-4"
