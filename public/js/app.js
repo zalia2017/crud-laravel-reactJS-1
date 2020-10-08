@@ -74803,7 +74803,7 @@ var Login = /*#__PURE__*/function (_Component) {
         var msg = response.data.success;
         console.log(msg);
 
-        if (msg == true) {
+        if (msg) {
           return _this4.loginSuccess();
         } else {
           return _this4.loginFailed();
@@ -74871,11 +74871,11 @@ var Login = /*#__PURE__*/function (_Component) {
         name: "password",
         value: this.state.password,
         onChange: this.handleFieldChange
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.renderErrorFor('password')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         onClick: this.showHide
-      }, this.state.type === 'input' ? 'Hide' : 'Show'), this.renderErrorFor('password'))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.type === 'input' ? 'Hide' : 'Show')), this.renderErrorFor('password')), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group row mb-0"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-8 offset-md-4"

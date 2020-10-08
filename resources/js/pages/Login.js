@@ -88,7 +88,7 @@ export default class Login extends Component {
         axios.post('/api/login', auth).then(response => {
             var msg = response.data.success
             console.log(msg);
-            if(msg==true){
+            if(msg){
                 return this.loginSuccess();
             }else{
                 return this.loginFailed();
@@ -135,6 +135,7 @@ export default class Login extends Component {
                                             />
 
                                             {this.renderErrorFor('email')}
+                                            
                                         </div>
                                     </div>
                                     <div className='form-group row'>
@@ -148,13 +149,14 @@ export default class Login extends Component {
                                                 value={this.state.password}
                                                 onChange={this.handleFieldChange}
                                             />
+                                            {this.renderErrorFor('password')}
                                         </div>
                                         <div className='col-md-1'>
                                             <span onClick={this.showHide}>
                                                 {this.state.type === 'input' ? 'Hide' : 'Show'}
                                             </span>
-                                            {this.renderErrorFor('password')}
                                         </div>
+                                        {this.renderErrorFor('password')}
                                     </div>
                                     <div className='form-group row mb-0'>
                                         <div className='col-md-8 offset-md-4'>
