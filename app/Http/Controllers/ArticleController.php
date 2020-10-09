@@ -38,7 +38,7 @@ class ArticleController extends Controller
         return response()->json($msg);
     }
 
-    public function getArticle($id)
+    public function show($id)
     {
         $article = \App\Models\Article::find($id);
 

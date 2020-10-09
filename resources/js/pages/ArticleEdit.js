@@ -13,7 +13,8 @@ export default class ArticleEdit extends Component {
             content: '',
             alert: null,
             message: '',
-            errors: []
+            errors: [],
+            token: this.props.token
         }
         this.handleFieldChange = this.handleFieldChange.bind(this)
         this.handleUpdateArticle = this.handleUpdateArticle.bind(this)
@@ -28,7 +29,9 @@ export default class ArticleEdit extends Component {
     componentDidMount() {
         const articleId = this.props.match.params.id
 
-        axios.get(`/api/article/edit/${articleId}`).then(response => {
+        axios.get(`/api/articles/${articleId}`,{
+            headers: {
+                'Authorization': `Bearer ${this.state.token}`}}).then(response => {
             this.setState({
                 title: response.data.title,
                 content: response.data.content

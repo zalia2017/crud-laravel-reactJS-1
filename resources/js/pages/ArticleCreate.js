@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import SweetAlert from 'react-bootstrap-sweetalert';
 import HeaderContent from '../components/ContentHeader'
 import ContentHeader from '../components/ContentHeader';
@@ -13,7 +13,8 @@ export default class ArticleCreate extends Component {
             title: '',
             content: '',
             alert: null,
-            errors: []
+            errors: [],
+            token: this.props.token,
         }
         this.handleFieldChange = this.handleFieldChange.bind(this)
         this.handleCreateNewArticle = this.handleCreateNewArticle.bind(this)
@@ -60,7 +61,9 @@ export default class ArticleCreate extends Component {
             title: this.state.title,
             content: this.state.content
         }
-        axios.post('/api/articles/store', article).then(response => {
+        axios.post('/api/articles', article, {
+            headers: {
+                'Authorization': `Bearer ${this.state.token}`}}).then(response => {
             var msg = response.data.success;
             if(msg == true) {
                 return this.goToHome();

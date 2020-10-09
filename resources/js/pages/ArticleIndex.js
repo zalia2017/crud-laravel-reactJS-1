@@ -8,15 +8,16 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default class ArticleIndex extends Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             articles: [],
             msg: null,
             type: null,
             flash: false,
             alert: null,
-            data: null
+            data: null,
+            token: this.props.token
         }
     }
 
@@ -27,10 +28,13 @@ export default class ArticleIndex extends Component {
     }
     async UNSAFE_componentWillMount() {
         await this.getData();
+        console.log('token willmout', this.state.token);
     }
     async getData(pageNumber = 1) {
         const url = `http://localhost:8000/api/articles?page=${pageNumber}`;
-        const response = await axios.get(url);
+        const response = await axios.get(url,{
+            headers: {
+                'Authorization': `Bearer ${this.state.token}`}});
         // console.log(response.data)
         // axios.get('/api/articles?page=').then(response => {
         //     console.log(response)
@@ -52,6 +56,7 @@ export default class ArticleIndex extends Component {
         // })
         // this.getData()
         await this.getData();
+        console.log('token didmount' , this.state.token);
     }
 
     confirmDelete(id) {

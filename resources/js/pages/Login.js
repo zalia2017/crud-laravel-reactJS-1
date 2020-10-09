@@ -37,12 +37,12 @@ export default class Login extends Component {
             )
         }
     }
-    loginSuccess() {
+    loginSuccess(token) {
         const getAlert = () => (
             <SweetAlert
                 success
                 title="Welcome!"
-                onConfirm={() => this.goToDashboard()}
+                onConfirm={() => this.goToDashboard(token)}
                 onCancel={this.hideAlert()}
                 timeout={2000}
                 showConfirm={false}
@@ -70,9 +70,12 @@ export default class Login extends Component {
             password: ''
         })
     }
-    goToDashboard() {
+    goToDashboard(token) {
         // return <Redirect to={'/'} />
-        this.props.history.push('/');
+        this.props.history.push({
+            pathname: '/',
+            state: { token: token }
+        });
     }
     hideAlert() {
         this.setState({
@@ -87,9 +90,12 @@ export default class Login extends Component {
         }
         axios.post('/api/login', auth).then(response => {
             var msg = response.data.success
+            var token = response.data.access_token
+
             console.log(msg);
+            console.log(token);
             if(msg){
-                return this.loginSuccess();
+                return this.loginSuccess(token);
             }else{
                 return this.loginFailed();
             }

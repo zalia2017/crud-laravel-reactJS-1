@@ -73095,7 +73095,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
-var HeaderAdmin = function HeaderAdmin() {
+var HeaderAdmin = function HeaderAdmin(_ref) {
+  var token = _ref.token;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     className: "main-header navbar navbar-expand navbar-white navbar-light"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
@@ -73450,7 +73451,8 @@ var ArticleCreate = /*#__PURE__*/function (_Component) {
       title: '',
       content: '',
       alert: null,
-      errors: []
+      errors: [],
+      token: _this.props.token
     };
     _this.handleFieldChange = _this.handleFieldChange.bind(_assertThisInitialized(_this));
     _this.handleCreateNewArticle = _this.handleCreateNewArticle.bind(_assertThisInitialized(_this));
@@ -73508,7 +73510,11 @@ var ArticleCreate = /*#__PURE__*/function (_Component) {
         title: this.state.title,
         content: this.state.content
       };
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/articles/store', article).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('/api/articles', article, {
+        headers: {
+          'Authorization': "Bearer ".concat(this.state.token)
+        }
+      }).then(function (response) {
         var msg = response.data.success;
 
         if (msg == true) {
@@ -73662,7 +73668,8 @@ var ArticleEdit = /*#__PURE__*/function (_Component) {
       content: '',
       alert: null,
       message: '',
-      errors: []
+      errors: [],
+      token: _this.props.token
     };
     _this.handleFieldChange = _this.handleFieldChange.bind(_assertThisInitialized(_this));
     _this.handleUpdateArticle = _this.handleUpdateArticle.bind(_assertThisInitialized(_this));
@@ -73682,7 +73689,11 @@ var ArticleEdit = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       var articleId = this.props.match.params.id;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/article/edit/".concat(articleId)).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/articles/".concat(articleId), {
+        headers: {
+          'Authorization': "Bearer ".concat(this.state.token)
+        }
+      }).then(function (response) {
         _this2.setState({
           title: response.data.title,
           content: response.data.content
@@ -73892,19 +73903,20 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
 
   var _super = _createSuper(ArticleIndex);
 
-  function ArticleIndex() {
+  function ArticleIndex(props) {
     var _this;
 
     _classCallCheck(this, ArticleIndex);
 
-    _this = _super.call(this);
+    _this = _super.call(this, props);
     _this.state = {
       articles: [],
       msg: null,
       type: null,
       flash: false,
       alert: null,
-      data: null
+      data: null,
+      token: _this.props.token
     };
     return _this;
   }
@@ -73928,6 +73940,9 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
                 return this.getData();
 
               case 2:
+                console.log('token willmout', this.state.token);
+
+              case 3:
               case "end":
                 return _context.stop();
             }
@@ -73956,7 +73971,11 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
                 pageNumber = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : 1;
                 url = "http://localhost:8000/api/articles?page=".concat(pageNumber);
                 _context2.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url, {
+                  headers: {
+                    'Authorization': "Bearer ".concat(this.state.token)
+                  }
+                });
 
               case 4:
                 response = _context2.sent;
@@ -74000,6 +74019,9 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
                 return this.getData();
 
               case 2:
+                console.log('token didmount', this.state.token);
+
+              case 3:
               case "end":
                 return _context3.stop();
             }
@@ -74735,7 +74757,7 @@ var Login = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "loginSuccess",
-    value: function loginSuccess() {
+    value: function loginSuccess(token) {
       var _this2 = this;
 
       var getAlert = function getAlert() {
@@ -74743,7 +74765,7 @@ var Login = /*#__PURE__*/function (_Component) {
           success: true,
           title: "Welcome!",
           onConfirm: function onConfirm() {
-            return _this2.goToDashboard();
+            return _this2.goToDashboard(token);
           },
           onCancel: _this2.hideAlert(),
           timeout: 2000,
@@ -74778,9 +74800,14 @@ var Login = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "goToDashboard",
-    value: function goToDashboard() {
+    value: function goToDashboard(token) {
       // return <Redirect to={'/'} />
-      this.props.history.push('/');
+      this.props.history.push({
+        pathname: '/',
+        state: {
+          token: token
+        }
+      });
     }
   }, {
     key: "hideAlert",
@@ -74801,10 +74828,12 @@ var Login = /*#__PURE__*/function (_Component) {
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/login', auth).then(function (response) {
         var msg = response.data.success;
+        var token = response.data.access_token;
         console.log(msg);
+        console.log(token);
 
         if (msg) {
-          return _this4.loginSuccess();
+          return _this4.loginSuccess(token);
         } else {
           return _this4.loginFailed();
         }
@@ -74995,6 +75024,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Login__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../pages/Login */ "./resources/js/pages/Login.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -75034,29 +75065,64 @@ var RouteAdmin = /*#__PURE__*/function (_Component) {
 
   var _super = _createSuper(RouteAdmin);
 
-  function RouteAdmin() {
+  function RouteAdmin(props) {
+    var _this;
+
     _classCallCheck(this, RouteAdmin);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this, props);
+    _this.state = {
+      token: _this.props.location.state.token
+    };
+    return _this;
   }
 
   _createClass(RouteAdmin, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      if (this.state.token === undefined) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
+          to: "/login"
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_HeaderAdmin__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+      var _this2 = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_HeaderAdmin__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        token: this.state.token
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         exact: true,
         path: "/",
-        component: _pages_ArticleIndex__WEBPACK_IMPORTED_MODULE_7__["default"]
+        component: function component(props) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_ArticleIndex__WEBPACK_IMPORTED_MODULE_7__["default"], _extends({}, props, {
+            token: _this2.state.token
+          }));
+        }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         exact: true,
         path: "/create",
-        component: _pages_ArticleCreate__WEBPACK_IMPORTED_MODULE_8__["default"]
+        component: function component(props) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_ArticleCreate__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({}, props, {
+            token: _this2.state.token
+          }));
+        }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         path: "/article/edit/:id",
-        component: _pages_ArticleEdit__WEBPACK_IMPORTED_MODULE_10__["default"]
+        component: function component(props) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_ArticleEdit__WEBPACK_IMPORTED_MODULE_10__["default"], _extends({}, props, {
+            token: _this2.state.token
+          }));
+        }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         path: "/article/:id",
-        component: _pages_ArticleShow__WEBPACK_IMPORTED_MODULE_9__["default"]
+        component: function component(props) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_ArticleShow__WEBPACK_IMPORTED_MODULE_9__["default"], _extends({}, props, {
+            token: _this2.state.token
+          }));
+        }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
         path: "/Gallery/",
         component: _pages_GalleryIndex__WEBPACK_IMPORTED_MODULE_11__["default"]

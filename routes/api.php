@@ -37,4 +37,4 @@ use App\Http\Controllers\LoginController;
 // Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::apiResource('/', ArticleController::class)->middleware('auth:api');
+Route::apiResource('/articles', ArticleController::class)->middleware('auth:api');

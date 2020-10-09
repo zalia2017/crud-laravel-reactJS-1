@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const HeaderAdmin = () => (
+const HeaderAdmin = ({token}) => (
     <nav className="main-header navbar navbar-expand navbar-white navbar-light">
         {/* <!-- Left navbar links --> */}
         <ul className="navbar-nav">
