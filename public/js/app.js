@@ -73093,10 +73093,72 @@ var Footer = function Footer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_bootstrap_sweetalert__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap-sweetalert */ "./node_modules/react-bootstrap-sweetalert/dist/index.js");
+/* harmony import */ var react_bootstrap_sweetalert__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_bootstrap_sweetalert__WEBPACK_IMPORTED_MODULE_2__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
-var HeaderAdmin = function HeaderAdmin(_ref) {
-  var token = _ref.token;
+
+
+
+var HeaderAdmin = function HeaderAdmin() {
+  var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useHistory"])();
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])('adsf'),
+      _useState2 = _slicedToArray(_useState, 2),
+      token = _useState2[0],
+      setToken = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null),
+      _useState4 = _slicedToArray(_useState3, 2),
+      alert = _useState4[0],
+      setAlert = _useState4[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    setToken(window.localStorage.getItem('accessToken'));
+  }); //handle Logout
+
+  var Logout = function Logout() {
+    localStorage.removeItem('accessToken');
+    console.log('Header Admin', localStorage.getItem('accessToken'));
+    history.push('/login');
+  };
+
+  var hideAlert = function hideAlert() {
+    setAlert(null);
+  }; //Confirm before Logout process
+
+
+  var LogoutConfirm = function LogoutConfirm() {
+    var getAlert = function getAlert() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_sweetalert__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        warning: true,
+        showCancel: true,
+        confirmBtnText: "OK",
+        cancelBtnText: "Cancel",
+        confirmBtnBsStyle: "default",
+        cancelBtnBsStyle: "danger",
+        title: "Wait...",
+        onConfirm: Logout,
+        onCancel: hideAlert,
+        focusCancelBtn: true
+      }, "Anda yakin akan logout");
+    };
+
+    setAlert(getAlert());
+  };
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     className: "main-header navbar navbar-expand navbar-white navbar-light"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
@@ -73123,8 +73185,9 @@ var HeaderAdmin = function HeaderAdmin(_ref) {
   }, "Contact")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "nav-item d-none d-sm-inline-block"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-    href: "login",
-    className: "nav-link"
+    href: "#",
+    className: "nav-link",
+    onClick: LogoutConfirm
   }, "Logout"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
     className: "form-inline ml-3"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -73289,7 +73352,7 @@ var HeaderAdmin = function HeaderAdmin(_ref) {
     role: "button"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
     className: "fas fa-th-large"
-  })))));
+  })))), alert);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (HeaderAdmin);
@@ -73452,7 +73515,7 @@ var ArticleCreate = /*#__PURE__*/function (_Component) {
       content: '',
       alert: null,
       errors: [],
-      token: _this.props.token
+      token: localStorage.getItem('accessToken')
     };
     _this.handleFieldChange = _this.handleFieldChange.bind(_assertThisInitialized(_this));
     _this.handleCreateNewArticle = _this.handleCreateNewArticle.bind(_assertThisInitialized(_this));
@@ -73669,7 +73732,7 @@ var ArticleEdit = /*#__PURE__*/function (_Component) {
       alert: null,
       message: '',
       errors: [],
-      token: _this.props.token
+      token: localStorage.getItem('accessToken')
     };
     _this.handleFieldChange = _this.handleFieldChange.bind(_assertThisInitialized(_this));
     _this.handleUpdateArticle = _this.handleUpdateArticle.bind(_assertThisInitialized(_this));
@@ -73903,12 +73966,12 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
 
   var _super = _createSuper(ArticleIndex);
 
-  function ArticleIndex(props) {
+  function ArticleIndex() {
     var _this;
 
     _classCallCheck(this, ArticleIndex);
 
-    _this = _super.call(this, props);
+    _this = _super.call(this);
     _this.state = {
       articles: [],
       msg: null,
@@ -73916,7 +73979,7 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
       flash: false,
       alert: null,
       data: null,
-      token: _this.props.token
+      token: ''
     };
     return _this;
   }
@@ -73937,10 +74000,12 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return this.getData();
+                return this.setState({
+                  token: localStorage.getItem('accessToken')
+                });
 
               case 2:
-                console.log('token willmout', this.state.token);
+                this.getData();
 
               case 3:
               case "end":
@@ -73979,16 +74044,6 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
 
               case 4:
                 response = _context2.sent;
-                // console.log(response.data)
-                // axios.get('/api/articles?page=').then(response => {
-                //     console.log(response)
-                //     // this.setState({
-                //     //     data:data
-                //     // })
-                //     this.setState({
-                //         articles: response.data.data
-                //     })
-                // })
                 this.setState({
                   data: response.data
                 });
@@ -74016,10 +74071,12 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return this.getData();
+                return this.setState({
+                  token: localStorage.getItem('accessToken')
+                });
 
               case 2:
-                console.log('token didmount', this.state.token);
+                this.getData();
 
               case 3:
               case "end":
@@ -74068,7 +74125,11 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
     value: function deleteItem(id) {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/api/article/delete/".concat(id)).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("/api/articles/".concat(id), {
+        headers: {
+          'Authorization': "Bearer ".concat(this.state.token)
+        }
+      }).then(function (response) {
         var msg = response.data.success;
 
         if (msg == true) {
@@ -74076,6 +74137,8 @@ var ArticleIndex = /*#__PURE__*/function (_Component) {
 
           _this3.goToHome();
         }
+      })["catch"](function (error) {
+        console.log('errrr', error);
       });
     }
   }, {
@@ -74266,7 +74329,8 @@ var ArticleShow = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      article: {}
+      article: {},
+      token: localStorage.getItem('accessToken')
     };
     return _this;
   }
@@ -74277,7 +74341,11 @@ var ArticleShow = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       var articleId = this.props.match.params.id;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/article/".concat(articleId)).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/api/articles/".concat(articleId), {
+        headers: {
+          'Authorization': "Bearer ".concat(this.state.token)
+        }
+      }).then(function (response) {
         _this2.setState({
           article: response.data
         });
@@ -74833,6 +74901,7 @@ var Login = /*#__PURE__*/function (_Component) {
         console.log(token);
 
         if (msg) {
+          localStorage.setItem('accessToken', token);
           return _this4.loginSuccess(token);
         } else {
           return _this4.loginFailed();
@@ -75024,8 +75093,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Login__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../pages/Login */ "./resources/js/pages/Login.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -75072,65 +75139,44 @@ var RouteAdmin = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      token: _this.props.location.state.token
+      token: localStorage.getItem('accessToken')
     };
     return _this;
   }
 
   _createClass(RouteAdmin, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      if (this.state.token === undefined) {
+    key: "render",
+    value: function render() {
+      if (this.state.token == null) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
           to: "/login"
         });
+      } else {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_HeaderAdmin__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          token: this.state.token
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+          exact: true,
+          path: "/",
+          component: _pages_ArticleIndex__WEBPACK_IMPORTED_MODULE_7__["default"]
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+          exact: true,
+          path: "/create",
+          component: _pages_ArticleCreate__WEBPACK_IMPORTED_MODULE_8__["default"]
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+          path: "/article/edit/:id",
+          component: _pages_ArticleEdit__WEBPACK_IMPORTED_MODULE_10__["default"]
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+          path: "/article/:id",
+          component: _pages_ArticleShow__WEBPACK_IMPORTED_MODULE_9__["default"]
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+          path: "/Gallery/",
+          component: _pages_GalleryIndex__WEBPACK_IMPORTED_MODULE_11__["default"]
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+          exact: true,
+          path: "/login",
+          component: _pages_Login__WEBPACK_IMPORTED_MODULE_12__["default"]
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_SideBar__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Footer__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_ControlSideBar__WEBPACK_IMPORTED_MODULE_6__["default"], null));
       }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_HeaderAdmin__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        token: this.state.token
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        exact: true,
-        path: "/",
-        component: function component(props) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_ArticleIndex__WEBPACK_IMPORTED_MODULE_7__["default"], _extends({}, props, {
-            token: _this2.state.token
-          }));
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        exact: true,
-        path: "/create",
-        component: function component(props) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_ArticleCreate__WEBPACK_IMPORTED_MODULE_8__["default"], _extends({}, props, {
-            token: _this2.state.token
-          }));
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        path: "/article/edit/:id",
-        component: function component(props) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_ArticleEdit__WEBPACK_IMPORTED_MODULE_10__["default"], _extends({}, props, {
-            token: _this2.state.token
-          }));
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        path: "/article/:id",
-        component: function component(props) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_pages_ArticleShow__WEBPACK_IMPORTED_MODULE_9__["default"], _extends({}, props, {
-            token: _this2.state.token
-          }));
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        path: "/Gallery/",
-        component: _pages_GalleryIndex__WEBPACK_IMPORTED_MODULE_11__["default"]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        exact: true,
-        path: "/login",
-        component: _pages_Login__WEBPACK_IMPORTED_MODULE_12__["default"]
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_SideBar__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Footer__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_ControlSideBar__WEBPACK_IMPORTED_MODULE_6__["default"], null));
     }
   }]);
 

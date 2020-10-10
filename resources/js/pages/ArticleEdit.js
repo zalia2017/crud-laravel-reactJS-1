@@ -14,7 +14,7 @@ export default class ArticleEdit extends Component {
             alert: null,
             message: '',
             errors: [],
-            token: this.props.token
+            token: localStorage.getItem('accessToken')
         }
         this.handleFieldChange = this.handleFieldChange.bind(this)
         this.handleUpdateArticle = this.handleUpdateArticle.bind(this)

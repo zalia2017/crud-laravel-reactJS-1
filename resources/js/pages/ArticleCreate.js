@@ -14,7 +14,7 @@ export default class ArticleCreate extends Component {
             content: '',
             alert: null,
             errors: [],
-            token: this.props.token,
+            token: localStorage.getItem('accessToken')
         }
         this.handleFieldChange = this.handleFieldChange.bind(this)
         this.handleCreateNewArticle = this.handleCreateNewArticle.bind(this)

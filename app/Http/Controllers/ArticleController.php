@@ -65,7 +65,7 @@ class ArticleController extends Controller
         return response()->json($msg);
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         $article = \App\Models\Article::find($id);
         if(!empty($article)){

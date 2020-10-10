@@ -8,8 +8,8 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel'
 
 export default class ArticleIndex extends Component {
 
-    constructor(props) {
-        super(props)
+    constructor() {
+        super()
         this.state = {
             articles: [],
             msg: null,
@@ -17,7 +17,7 @@ export default class ArticleIndex extends Component {
             flash: false,
             alert: null,
             data: null,
-            token: this.props.token
+            token: ''
         }
     }
 
@@ -27,36 +27,19 @@ export default class ArticleIndex extends Component {
         });
     }
     async UNSAFE_componentWillMount() {
-        await this.getData();
-        console.log('token willmout', this.state.token);
+        await this.setState({token: localStorage.getItem('accessToken')})
+        this.getData();
     }
     async getData(pageNumber = 1) {
         const url = `http://localhost:8000/api/articles?page=${pageNumber}`;
         const response = await axios.get(url,{
             headers: {
                 'Authorization': `Bearer ${this.state.token}`}});
-        // console.log(response.data)
-        // axios.get('/api/articles?page=').then(response => {
-        //     console.log(response)
-        //     // this.setState({
-        //     //     data:data
-        //     // })
-        //     this.setState({
-        //         articles: response.data.data
-        //     })
-        // })
         this.setState({ data: response.data })
     }
     async componentDidMount() {
-        // axios.get('/api/articles').then(response => {
-        //     // console.log(response.data.data)
-        //     this.setState({
-        //         articles: response.data.data
-        //     })
-        // })
-        // this.getData()
-        await this.getData();
-        console.log('token didmount' , this.state.token);
+        await this.setState({token: localStorage.getItem('accessToken')})
+        this.getData();
     }
 
     confirmDelete(id) {
@@ -81,12 +64,16 @@ export default class ArticleIndex extends Component {
     }
 
     deleteItem(id) {
-        axios.delete(`/api/article/delete/${id}`).then(response => {
+        axios.delete(`/api/articles/${id}`,{
+            headers: {
+                'Authorization': `Bearer ${this.state.token}`}}).then(response => {
             var msg = response.data.success;
             if (msg == true) {
                 this.hideAlert();
                 this.goToHome();
             }
+        }).catch(error=>{
+            console.log('errrr', error);
         })
     }
 

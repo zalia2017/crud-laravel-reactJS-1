@@ -7,14 +7,17 @@ export default class ArticleShow extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            article: {}
+            article: {},
+            token: localStorage.getItem('accessToken')
         }
     }
 
     componentDidMount() {
         const articleId = this.props.match.params.id 
 
-        axios.get(`/api/article/${articleId}`).then(response => {
+        axios.get(`/api/articles/${articleId}`, {
+            headers: {
+                'Authorization': `Bearer ${this.state.token}`}}).then(response => {
             this.setState({
                 article: response.data
             })

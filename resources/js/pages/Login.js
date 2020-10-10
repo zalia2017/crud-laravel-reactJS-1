@@ -72,10 +72,10 @@ export default class Login extends Component {
     }
     goToDashboard(token) {
         // return <Redirect to={'/'} />
-        this.props.history.push({
+        this.props.history.push(({
             pathname: '/',
             state: { token: token }
-        });
+        }));
     }
     hideAlert() {
         this.setState({
@@ -95,6 +95,7 @@ export default class Login extends Component {
             console.log(msg);
             console.log(token);
             if(msg){
+                localStorage.setItem('accessToken', token);
                 return this.loginSuccess(token);
             }else{
                 return this.loginFailed();
